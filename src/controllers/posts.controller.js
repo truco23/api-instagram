@@ -1,4 +1,7 @@
 const mongoose      = require('mongoose');
+const sharp         = require('sharp');
+const path          = require('path');
+const fs            = require('fs');
 const postModel     = mongoose.model('postModel');
 
 let PostController = function () {};
@@ -55,7 +58,14 @@ PostController.prototype.create = async (req, res) => {
     try {
         
         const { author, place, description, hastag, like } = req.body;
-        const { filename: image } = req.file;
+        const { filename: image, destination } = req.file;
+
+        await sharp(req.file.path)
+            .resize(500)
+            .jpeg({ quality: 70 })
+            .toFile(path.resolve(destination, 'resized', image))
+
+        fs.unlinkSync(req.file.path);
     
         await postModel.create({author, place, description, hastag, like, image }, (error, post) => {
 
