@@ -10,6 +10,9 @@ app.use(bodyParser.json());
 
 consign({ cwd: 'src' })
     .include('config')
+    .then('models')
+    .then('controllers')
+    .then('routes')
     .into(app)
 
 app.listen(port, () => {
