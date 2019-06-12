@@ -3,6 +3,25 @@ const postModel     = mongoose.model('postModel');
 
 let PostController = function () {};
 
+PostController.prototype.list = async (req, res) => {
+
+    try {
+        const posts = await postModel.find({}).sort('-createdAt');
+
+        if(!posts) {
+            console.log('################ Não foi possível listar os posts ################');
+            res.status(400).json({ message: 'Não foi possível listar os posts' });
+            return;
+        };
+
+        console.log('################ Posts listados ################');
+        res.status(200).json(posts);
+    } catch (error) {
+        console.log(error.message);
+        res.status(400).json({ message: error.message });
+    };
+};
+
 PostController.prototype.create = async (req, res) => {
 
     try {

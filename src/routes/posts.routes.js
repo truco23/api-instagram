@@ -7,5 +7,6 @@ module.exports = app => {
 
     app
         .route('/posts')
+        .get(PostController.list)
         .post(upload.single('image'), PostController.create)
 }
