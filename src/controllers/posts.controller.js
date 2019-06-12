@@ -45,6 +45,7 @@ PostController.prototype.like = async (req, res) => {
             console.log(post);
             console.log('##############################################');
 
+            req.io.emit('like-post', post);
             res.status(200).json(post);
         })
     } catch (error) {
@@ -81,6 +82,7 @@ PostController.prototype.create = async (req, res) => {
             console.log(post);
             console.log('#################################################');
 
+            req.io.emit('new-post', post);
             res.status(200).json(post);
         });
     } catch (error) {
