@@ -5,14 +5,8 @@ const postModel = new mongoose.Schema({
         required: true,
         type: String
     },
-    place: {
-        required: true,
-        type: String
-    },
-    description: {
-        required: true,
-        type: String
-    },
+    place: String,
+    description: String,
     hastag: String,
     image: {
         required: true,
