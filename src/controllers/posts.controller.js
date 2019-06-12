@@ -59,15 +59,17 @@ PostController.prototype.create = async (req, res) => {
         
         const { author, place, description, hastag, like } = req.body;
         const { filename: image, destination } = req.file;
+        const [name] = image.split('.');
+        const newFilename = `${ name }.jpeg`;
 
         await sharp(req.file.path)
             .resize(500)
             .jpeg({ quality: 70 })
-            .toFile(path.resolve(destination, 'resized', image))
+            .toFile(path.resolve(destination, 'resized', newFilename))
 
         fs.unlinkSync(req.file.path);
     
-        await postModel.create({author, place, description, hastag, like, image }, (error, post) => {
+        await postModel.create({author, place, description, hastag, like, image: newFilename }, (error, post) => {
 
             if(error) {
                 console.log(error.message);  
