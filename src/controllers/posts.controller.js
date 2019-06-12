@@ -22,6 +22,34 @@ PostController.prototype.list = async (req, res) => {
     };
 };
 
+PostController.prototype.like = async (req, res) => {
+
+    try {
+        const { id } = req.params;
+
+        await postModel.findOne({ _id: id }, (error, post) => {
+
+            if(error) {
+                console.log(error.message);
+                res.status(400).json({ message: error.message });
+                return;
+            };
+
+            post.like += 1;
+            post.save();
+
+            console.log('################ Post curtido ################');
+            console.log(post);
+            console.log('##############################################');
+
+            res.status(200).json(post);
+        })
+    } catch (error) {
+        console.log(error.message);
+        res.status(400).json({ message: error.message });
+    };
+};
+
 PostController.prototype.create = async (req, res) => {
 
     try {

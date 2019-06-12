@@ -9,4 +9,8 @@ module.exports = app => {
         .route('/posts')
         .get(PostController.list)
         .post(upload.single('image'), PostController.create)
+
+    app
+        .route('/post/like/:id')
+        .post(PostController.like)
 }
