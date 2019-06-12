@@ -3,10 +3,12 @@ const app       = express();
 const consign   = require('consign');
 const cors      = require('cors');
 const bodyParser= require('body-parser');
+const path      = require('path');
 const port      = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use('/images', express.static(path.resolve(__dirname, '..', 'uploads', 'resized')));
 
 consign({ cwd: 'src' })
     .include('config')
