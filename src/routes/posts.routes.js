@@ -13,4 +13,8 @@ module.exports = app => {
     app
         .route('/post/like/:id')
         .post(PostController.like)
+
+    app
+        .route('/post/:id')
+        .delete(PostController.remove)
 }

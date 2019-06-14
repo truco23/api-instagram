@@ -91,4 +91,36 @@ PostController.prototype.create = async (req, res) => {
     };
 };
 
+PostController.prototype.remove = async (req, res) => {
+
+    try {
+        const { id } = req.params;
+
+        await postModel.findOneAndDelete({ _id: id }, (error, post) => {
+
+            if(error) {
+                console.log(error.message);
+                res.status(400).json({ status: error.message });
+                return;
+            };
+
+            if(!post) {
+                console.log('################ Este post foi removido anteriormente ################');
+                res.status(400).json({ status: 'Este post foi removido anteriormente' });
+                return;
+            };
+
+            console.log('################ Post removido ################');
+            console.log(post);
+            console.log('###############################################');
+
+            req.io.emit('delete-post', post);
+            res.status(200).json({ success: 'Post removido' });
+        })
+    } catch (error) {
+        console.log(error.message);
+        res.status(400).json({ status: error.message });
+    };
+};
+
 module.exports = new PostController();
